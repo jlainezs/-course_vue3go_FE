@@ -8,6 +8,7 @@ const RegistrationForm = {
       <text-input label="Last name" name="last-name" required="true" type="text"></text-input>
       <text-input label="Email" name="email" required="true" type="email"></text-input>
       <select-input label="Favourite Colour" name="colors" required="true" :items="items"></select-input>
+      <check-input label="I agree to terms and conditions" required="true"></check-input>
       <hr/>
       <input class="btn btn-outline-primary" type="submit" value="Register">
     </form>
@@ -15,6 +16,7 @@ const RegistrationForm = {
   components: {
     'text-input': TextInput,
     'select-input': SelectInput,
+    'check-input': CheckInput,
   },
   mounted(){
     (function () {
