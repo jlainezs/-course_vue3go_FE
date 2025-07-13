@@ -39,9 +39,11 @@
       <div class="row">
         <div class="col">
           <form class="needs-validation mt-5" novalidate>
-            <text-input label="First name" type="text" name="first-name"></text-input>
-            <text-input label="Last name" type="text" name="last-name"></text-input>
-            <text-input label="Email" type="email" name="email"></text-input>
+            <text-input required="required" label="First name" type="text" name="first-name"></text-input>
+            <text-input required="required" label="Last name" type="text" name="last-name"></text-input>
+            <text-input required="required" label="Email" type="email" name="email"></text-input>
+            <hr>
+            <input class="btn btn-primary" type="submit" value="Save" />
           </form>
         </div>
       </div>
@@ -98,6 +100,32 @@
         },
         components: {
           TextInput
+        },
+        mounted() {
+          console.log('Component mounted.');
+          (function () {
+            'use strict';
+            var forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+              .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                  if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                  }
+
+                  form.classList.add('was-validated')
+                }, false)
+              })
+          })()
+        },
+        created() {
+          console.log('Component created.');
+        },
+        updated(){
+          console.log('Component updated.');
         }
       }).mount("#app");
     </script>
