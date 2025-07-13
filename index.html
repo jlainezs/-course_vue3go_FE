@@ -27,6 +27,15 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <h1>{{ counter }}</h1>
+          <hr />
+          <button class="btn btn-outline-secondary" @click.prevent="incrementCounter()">Increment</button>
+          &nbsp;
+          <button class="btn btn-outline-secondary" @click.prevent="decrementCounter()">Decrement</button>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@3.5.17/dist/vue.global.min.js"></script>
@@ -35,11 +44,20 @@
           crossorigin="anonymous"></script>
     <script>
       let data = {
+        counter: 0,
         message: "Hello, world!",
       }
       const vm = Vue.createApp({
         data(){
           return data;
+        },
+        methods: {
+          incrementCounter(){
+            this.counter++;
+          },
+          decrementCounter(){
+            this.counter--;
+          }
         }
       }).mount("#app");
     </script>
