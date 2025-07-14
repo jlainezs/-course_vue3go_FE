@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Body from "./../components/Body";
+import Body from "./../components/Body.vue";
 
 const routes = [
   {
