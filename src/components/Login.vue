@@ -5,7 +5,7 @@
         <h1 class="mt-5">Login</h1>
         <hr/>
 
-        <form method="POST" action="/login" class="needs-validation" novalidate>
+        <form-tag method="POST" action="/login">
           <text-input
             label="Email"
             type="email"
@@ -18,8 +18,7 @@
             required="true"/>
           <hr/>
           <input type="submit" class="btn btn-primary" value="Login" />
-
-        </form>
+        </form-tag>
       </div>
     </div>
   </div>
@@ -27,25 +26,7 @@
 
 <script setup>
 import TextInput from "@/components/forms/TextInput.vue";
-import {onMounted} from "vue";
-
-onMounted(() => {
-  'use strict';
-  let forms = document.querySelectorAll('.needs-validation')
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms)
-    .forEach(function (form) {
-      form.addEventListener('submit', function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-
-        form.classList.add('was-validated')
-      }, false)
-    })
-});
+import FormTag from "@/components/forms/FormTag.vue";
 
 </script>
 
