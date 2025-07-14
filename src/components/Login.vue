@@ -5,13 +5,15 @@
         <h1 class="mt-5">Login</h1>
         <hr/>
 
-        <form-tag method="POST" action="/login">
+        <form-tag @myevent="submitHandler" name="myform" event="myevent">
           <text-input
+            v-model="email"
             label="Email"
             type="email"
             name="email"
             required="true"/>
           <text-input
+            v-model="password"
             label="Password"
             type="password"
             name="password"
@@ -24,10 +26,29 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import TextInput from "@/components/forms/TextInput.vue";
 import FormTag from "@/components/forms/FormTag.vue";
 
+// this is using options API
+export default {
+  name: "login",
+  components: {
+    FormTag,
+    TextInput
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+    }
+  },
+  methods: {
+    submitHandler() {
+      console.log("submitHandler fired");
+    }
+  }
+}
 </script>
 
 <style scoped>
