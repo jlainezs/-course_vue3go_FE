@@ -31,8 +31,9 @@
 </template>
 
 <script>
-import TextInput from "@/components/forms/TextInput.vue";
-import FormTag from "@/components/forms/FormTag.vue";
+import TextInput from "@/components/forms/TextInput.vue"
+import FormTag from "@/components/forms/FormTag.vue"
+import { store } from "./store.js"
 
 // this is using options API
 export default {
@@ -45,6 +46,7 @@ export default {
     return {
       email: "",
       password: "",
+      store,
     }
   },
   methods: {
@@ -60,11 +62,12 @@ export default {
       }
       fetch("http://localhost:8081/users/login", requestOptions)
       .then(response => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log(data.message);
+      .then((response) => {
+        if (response.error) {
+          console.log(response.message);
         } else {
-          console.log("Token:", data.data.token.token);
+          console.log("Token:", response.data.token.token);
+          store.token = response.data.token.token;
         }
       });
     }
