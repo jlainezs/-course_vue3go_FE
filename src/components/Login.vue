@@ -19,10 +19,6 @@
             name="password"
             required="true"/>
           <hr/>
-
-          Email {{ email }}
-
-          <hr/>
           <input type="submit" class="btn btn-primary" value="Login" />
         </form-tag>
       </div>
@@ -34,6 +30,8 @@
 import TextInput from "@/components/forms/TextInput.vue"
 import FormTag from "@/components/forms/FormTag.vue"
 import { store } from "./store.js"
+import router from "./../router/index.js"
+import notie from "notie";
 
 // this is using options API
 export default {
@@ -65,9 +63,14 @@ export default {
       .then((response) => {
         if (response.error) {
           console.log(response.message);
+          notie.alert({
+            type: "error",
+            text: response.message,
+          });
         } else {
           console.log("Token:", response.data.token.token);
           store.token = response.data.token.token;
+          router.push("/");
         }
       });
     }
