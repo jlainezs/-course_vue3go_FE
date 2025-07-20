@@ -12,10 +12,16 @@ import Footer from "@/components/Footer.vue";
 import { store } from "./components/store.js"
 
 const getCookie = (name) => {
-  return document.cookie.split(";").reduce((r,v) => {
+  /*
+  return document.cookie.split("; ").reduce((r,v) => {
     const parts = v.split("=");
     return parts[0] === name ? decodeURIComponent(parts[1]) : r;
   }, "");
+   */
+  // proposed code in course was not working properly
+  let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (match) return match[2];
+  return "";
 }
 
 export default {
@@ -33,6 +39,7 @@ export default {
     // check for a cookie
     let data = getCookie("_site_data");
     if (data !== "") {
+      console.log(data);
       let cookieData = JSON.parse(data);
 
       // update store
@@ -44,6 +51,28 @@ export default {
         email: cookieData.user.email,
       }
     }
+  },
+  mounted() {
+    const payload = {
+     foo: "bar",
+   }
+
+   const headers = new Headers()
+   headers.append("Content-Type", "application/json");
+   headers.append("Authorization", "Bearer " + store.token);
+
+   const requestOptions = {
+     method: "POST",
+     body: JSON.stringify(payload),
+     headers: headers,
+   }
+
+   fetch("http://localhost:8081/admin/foo", requestOptions)
+   .then((response) => response.json())
+   .then((data) => {
+     //console.log(data);
+   });
+
   }
 }
 

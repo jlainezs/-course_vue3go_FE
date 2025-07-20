@@ -68,7 +68,6 @@ export default {
             text: response.message,
           });
         } else {
-          console.log("Token:", response.data.token.token);
           store.token = response.data.token.token;
           store.user = {
             id: response.data.user.id,
@@ -85,6 +84,7 @@ export default {
 
           document.cookie = "_site_data="
             + JSON.stringify(response.data)
+            + "; "
             + expires
             + "; path=/; SameSite=strict; Secure;";
           router.push("/");
