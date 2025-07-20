@@ -70,6 +70,23 @@ export default {
         } else {
           console.log("Token:", response.data.token.token);
           store.token = response.data.token.token;
+          store.user = {
+            id: response.data.user.id,
+            first_name: response.data.user.first_name,
+            last_name: response.data.user.last_name,
+            email: response.data.user.email,
+          }
+
+          // save into a cookie
+          let date = new Date();
+          let expDays = 1;
+          date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+          const expires = "expires=" + date.toUTCString();
+
+          document.cookie = "_site_data="
+            + JSON.stringify(response.data)
+            + expires
+            + "; path=/; SameSite=strict; Secure;";
           router.push("/");
         }
       });
