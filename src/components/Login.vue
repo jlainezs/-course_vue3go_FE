@@ -27,8 +27,11 @@
 </template>
 
 <script>
-import TextInput from "@/components/forms/TextInput.vue";
-import FormTag from "@/components/forms/FormTag.vue";
+import TextInput from "@/components/forms/TextInput.vue"
+import FormTag from "@/components/forms/FormTag.vue"
+import { store } from "./store.js"
+import router from "./../router/index.js"
+import notie from "notie";
 
 // this is using options API
 export default {
@@ -41,6 +44,7 @@ export default {
     return {
       email: "",
       password: "",
+      store,
     }
   },
   methods: {
@@ -56,11 +60,34 @@ export default {
       }
       fetch("http://localhost:8081/users/login", requestOptions)
       .then(response => response.json())
-      .then((data) => {
-        if (data.error) {
-          console.log(data.message);
+      .then((response) => {
+        if (response.error) {
+          console.log(response.message);
+          notie.alert({
+            type: "error",
+            text: response.message,
+          });
         } else {
-          console.log(data);
+          store.token = response.data.token.token;
+          store.user = {
+            id: response.data.user.id,
+            first_name: response.data.user.first_name,
+            last_name: response.data.user.last_name,
+            email: response.data.user.email,
+          }
+
+          // save into a cookie
+          let date = new Date();
+          let expDays = 1;
+          date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+          const expires = "expires=" + date.toUTCString();
+
+          document.cookie = "_site_data="
+            + JSON.stringify(response.data)
+            + "; "
+            + expires
+            + "; path=/; SameSite=strict; Secure;";
+          router.push("/");
         }
       });
     }
