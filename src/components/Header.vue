@@ -10,6 +10,31 @@
           <li class="nav-item">
             <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
           </li>
+
+          <li class="nav-item">
+            <router-link class="nav-link active" aria-current="page" to="/books">Books</router-link>
+          </li>
+
+          <li v-if="store.token !== ''" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navBarDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="talse">
+              Admin
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navBarDropDown">
+              <li>
+                <router-link class="dropdown-item" to="/admin/users">Manage users</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/admin/users/0">Add user</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" to="/admin/books">Manage books</router-link>
+              </li>
+              <li>
+                <router-link class="dropdown-item" :to="{name: 'BookEdit', params: {bookId: 0}}">Edit book</router-link>
+              </li>
+            </ul>
+          </li>
+
           <li class="nav-item">
             <router-link v-if="store.token === ''" class="nav-link" to="/login">Login</router-link>
             <a v-else class="nav-link" href="javascript:void(0);" @click="logout">Logout</a>
