@@ -42,6 +42,17 @@
             value="user.password"
             name="password" />
           <hr/>
+
+          <div class="float-start">
+            <input type="submit" class="btn btn-primary me-2" value="Save" />
+            <router-link to="/admin/users" class="btn btn-outline-secondary">Cancel</router-link>
+          </div>
+          <div class="float-end">
+            <a v-if="(this.$route.params.userId > 0) && (parseInt(String(this.$route,params.userId), 10) !== store.user.id)"
+               class="btn btn-danger" href="javascript:void(0);" @click="confirmDelete(this.user.id)">Delete</a>
+          </div>
+          <div class="clearfix"></div>
+
         </form-tag>
       </div>
     </div>
@@ -52,6 +63,9 @@
 import Security from "./security.js";
 import FormTag from "@/components/forms/FormTag.vue";
 import TextInput from "@/components/forms/TextInput.vue";
+import notie from "notie"
+import {store} from "./store.js";
+
 export default {
   beforeMount() {
     Security.requireToken();
@@ -69,7 +83,8 @@ export default {
         last_name: "",
         email: "",
         password: "",
-      }
+      },
+      store,
     }
   },
   components: {
@@ -78,8 +93,37 @@ export default {
   },
   methods: {
     submitHandler() {
+      const payload = {
+        id: parseInt(String(this.$route.params.userId), 10),
+        first_name: this.user.first_name,
+        last_name: this.user.last_name,
+        email: this.user.email,
+        password: this.user.password,
+      }
 
-    }
+      fetch(`${meta.import.env.VITE_API_URL}/admin/users/save`, Security.requestOptions(payload))
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          notie.alert({
+            type: "error",
+            text: data.message,
+          })
+        } else {
+          notie.alert({
+            type: "sucess",
+            text: "Changes saved",
+          })
+        }
+      })
+      .catch((error) => {
+        notie.alert({
+          type: "error",
+          message: error,
+        })
+      })
+    },
+    confirmDelete(id){}
   }
 }
 </script>
