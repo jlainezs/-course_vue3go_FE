@@ -58,7 +58,7 @@ export default {
         method: "POST",
         body: JSON.stringify(payload)
       }
-      fetch("http://localhost:8081/users/login", requestOptions)
+      fetch(import.meta.env.VITE_API_URL + "/users/login", requestOptions)
       .then(response => response.json())
       .then((response) => {
         if (response.error) {
