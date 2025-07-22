@@ -40,7 +40,8 @@
             type="password"
             label="Password"
             value="user.password"
-            name="password" />
+            name="password"
+            help="Leave empty to keep existing password."/>
           <hr/>
 
           <div class="float-start">
@@ -48,7 +49,7 @@
             <router-link to="/admin/users" class="btn btn-outline-secondary">Cancel</router-link>
           </div>
           <div class="float-end">
-            <a v-if="(this.$route.params.userId > 0) && (parseInt(String(this.$route,params.userId), 10) !== store.user.id)"
+            <a v-if="(this.$route.params.userId > 0) && (parseInt(String(this.$route.params.userId), 10) !== store.user.id)"
                class="btn btn-danger" href="javascript:void(0);" @click="confirmDelete(this.user.id)">Delete</a>
           </div>
           <div class="clearfix"></div>

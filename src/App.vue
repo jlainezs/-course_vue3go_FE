@@ -39,7 +39,7 @@ export default {
     // check for a cookie
     let data = getCookie("_site_data");
     if (data !== "") {
-      console.log(data);
+      //console.log(data);
       let cookieData = JSON.parse(data);
 
       // update store
