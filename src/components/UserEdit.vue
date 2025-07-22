@@ -72,7 +72,21 @@ export default {
 
     if (parseInt(String(this.$route.params.userId), 10) > 0){
       // editing and existing user
-      // TODO get user from databas
+      fetch(`${import.meta.env.VITE_API_URL}/admin/users/get/${this.$route.params.userId}`, Security.requestOptions(""))
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          notie.alert({
+            type: "error",
+            text: data.message,
+          })
+        } else {
+          this.user = data;
+          // force password to be empty for existing users
+          this.user.password = "";
+        }
+      })
+      .catch(error => console.log(error));
     }
   },
   data() {
@@ -101,7 +115,7 @@ export default {
         password: this.user.password,
       }
 
-      fetch(`${meta.import.env.VITE_API_URL}/admin/users/save`, Security.requestOptions(payload))
+      fetch(`${import.meta.env.VITE_API_URL}/admin/users/save`, Security.requestOptions(payload))
       .then((response) => response.json())
       .then((data) => {
         if (data.error) {

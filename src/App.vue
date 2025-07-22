@@ -67,11 +67,13 @@ export default {
      headers: headers,
    }
 
+   /*
    fetch(import.meta.env.VITE_API_URL + "/admin/foo", requestOptions)
    .then((response) => response.json())
    .then((data) => {
      //console.log(data);
    });
+   */
 
   }
 }
