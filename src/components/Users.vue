@@ -10,6 +10,7 @@
           <tr>
             <th>User</th>
             <th>Email</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -20,6 +21,12 @@
               </router-link>
             </td>
             <td>{{ u.email }}</td>
+            <td v-if="u.token.id > 0">
+              <span class="badge bg-success" @click="logUserOut(u.id)">Logged in</span>
+            </td>
+            <td v-else>
+              <span class="badge bg-danger">Not logged in</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -34,35 +41,49 @@
 <script>
 import Security from "./security.js";
 import notie from 'notie'
+import {store} from "@/components/store.js";
 
 export default {
   data() {
     return {
       users: [],
       ready: false,
+      store,
     }
   },
   beforeMount() {
     Security.requireToken();
     fetch(import.meta.env.VITE_API_URL + "/admin/users", Security.requestOptions(""))
-      .then((response) => response.json())
-      .then((response) => {
-        if (response.error) {
-          notie.alert({
-            type: "error",
-            text: response.message,
-          })
-        } else {
-          this.users = response.data.users;
-          this.ready = true;
-        }
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.error) {
+        this.$emit("error, response.message");
+      } else {
+        this.users = response.data.users;
+        this.ready = true;
+      }
+    })
+    .catch((error) => {
+      notie.alert({
+        type: "error",
+        text: error,
       })
-      .catch((error) => {
-        notie.alert({
-          type: "error",
-          text: error,
-        })
-      })
-  }
+    })
+  },
+  methods: {
+    logUserOut(id) {
+      if (id !== store.user.id) {
+        notie.confirm({
+          text: "Are you sure you want to log this user out?",
+          submitText: "Log out",
+          submitCallback: () => {
+            console.log("will log out", id);
+          }
+        });
+      } else {
+        this.$emit("error", "You cannot log out yourself.");
+      }
+    }
+  },
 }
 </script>
