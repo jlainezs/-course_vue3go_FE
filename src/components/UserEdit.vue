@@ -42,6 +42,16 @@
             value="user.password"
             name="password"
             help="Leave empty to keep existing password."/>
+
+          <div class="form-check">
+            <input v-model="user.active" class="form-check-input" type="radio" :value="1" id="user-active" />
+            <label class="form-check-label" for="user-active">Active</label>
+          </div>
+          <div class="form-check">
+            <input v-model="user.active" class="form-check-input" type="radio" :value="0" id="user-active-2" />
+            <label class="form-check-label" for="user-active-2">Inactive</label>
+          </div>
+
           <hr/>
 
           <div class="float-start">
@@ -96,6 +106,7 @@ export default {
         last_name: "",
         email: "",
         password: "",
+        active: 0,
       },
       store,
     }
@@ -112,6 +123,7 @@ export default {
         last_name: this.user.last_name,
         email: this.user.email,
         password: this.user.password,
+        active: this.user.active,
       }
 
       fetch(`${import.meta.env.VITE_API_URL}/admin/users/save`, Security.requestOptions(payload))
