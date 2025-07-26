@@ -6,7 +6,7 @@
       </div>
 
       <hr/>
-      <div class="filters text-center mb-2">
+      <div class="filters text-center">
         <span class="filter me-1" v-bind:class="{ active: currentFilter === 0 }" v-on:click="setFilter(0)">ALL</span>
         <span class="filter me-1" v-bind:class="{ active: currentFilter === 7 }" v-on:click="setFilter(7)">CLASSIC</span>
         <span class="filter me-1" v-bind:class="{ active: currentFilter === 2 }" v-on:click="setFilter(2)">FANTASY</span>
@@ -81,6 +81,9 @@ export default {
 </script>
 
 <style scoped>
+.filters{
+  height: 2.5em;
+}
 .filter{
   padding: 6px 6px;
   cursor: pointer;
