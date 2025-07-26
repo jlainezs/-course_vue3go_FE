@@ -18,7 +18,7 @@
 
       <div>
         <div class="card-group">
-          <div class="p-3 d-flex flex-wrap">
+          <transition-group class="p-3 d-flex flex-wrap" tag="div" appear name="books">
             <div v-for="b in books" :key="b.id">
               <div class="card me-2 ms-1 mb-3" style="width: 10rem;"
                 v-if="b.genre_ids.includes(currentFilter) || currentFilter === 0">
@@ -35,7 +35,7 @@
                   </div>
               </div>
             </div>
-          </div>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -99,5 +99,19 @@ export default {
 }
 .book-author, .book-genre {
   font-size: 0.8em;
+}
+
+/* transition styles */
+.books-move{
+  transition: all 500ms ease-in-out 50ms;
+}
+.books-enter-active{
+  transition: all 500ms ease-in-out;
+}
+.books-leave-active{
+  transition: all 500ms ease-in;
+}
+.books-enter, .books-leave-to{
+  opacity: 0;
 }
 </style>
