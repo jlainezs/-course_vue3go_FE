@@ -91,7 +91,7 @@ export default {
 .filter.active{
   background: lightgreen;
 }
-filter.hover{
+.filter:hover{
   background: lightgray;
 }
 .book-author, .book-genre {
