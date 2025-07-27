@@ -1,0 +1,56 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h1 class="mt-3">Manage books</h1>
+        <hr/>
+        <table v-if="this.ready" class="table table-compact table-striped">
+          <thead>
+            <tr>
+              <th>Book</th>
+              <th>Author</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="b in this.books" :key="b.id">
+              <td>
+                <router-link :to="`/admin/books/${b.id}`">
+                {{ b.title }}
+                </router-link>
+              </td>
+              <td>{{ b.author.author_name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Security from "./security.js";
+export default {
+  data() {
+    return {
+      books: {},
+      ready: false,
+    }
+  },
+  activated(){
+    Security.requireToken();
+    fetch(import.meta.env.VITE_API_URL + "/admin/books", Security.requestOptions(""))
+    .then(response => response.json())
+    .then((data) => {
+      if (data.error) {
+        this.$emit('error', data.message);
+      } else {
+        this.books = data.data.books;
+        this.ready = true;
+      }
+    })
+  },
+  deactivated(){
+    this.ready = false;
+  }
+}
+</script>
