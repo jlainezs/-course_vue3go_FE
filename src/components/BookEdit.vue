@@ -100,6 +100,25 @@ export default {
   },
   beforeMount() {
     Security.requireToken();
+
+    // get book for edit if id > 0
+    if (this.$route.params.bookId > 0){
+      // editing a book
+    } else {
+      // adding a book
+    }
+
+    // get list of authors for drop down
+    fetch(`${import.meta.env.VITE_API_URL}/admin/authors/all`, Security.requestOptions(""))
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        this.$emit("error", data.message);
+      } else {
+        this.authors = data.data;
+      }
+    })
+    .catch(error => console.log(error));
   },
   methods:{
     submitHandler(){
