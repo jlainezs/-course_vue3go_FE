@@ -62,6 +62,8 @@ import Security from "./security.js";
 import FormTag from "@/components/forms/FormTag.vue";
 import SelectInput from "@/components/forms/SelectInput.vue";
 import TextInput from "@/components/forms/TextInput.vue";
+import router from "@/router/index.js";
+import notie from "notie";
 
 export default {
   name: "BookEdit",
@@ -101,14 +103,73 @@ export default {
   },
   methods:{
     submitHandler(){
-
+      const payload = {
+        id: this.book.id,
+        title: this.book.title,
+        author_id: parseInt(this.book.author_id),
+        publication_year: this.book.publication_year,
+        description: this.book.description,
+        cover: this.book.cover,
+        slug: this.book.slug,
+        genre_ids: this.book.genre_ids,
+      };
+      fetch(`${import.meta.env.VITE_API_URL}/admin/books/save`, Security.requestOptions(payload))
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.error) {
+          this.$emit("error", data.message);
+        } else {
+          this.$emit("success", "Changes saved");
+          router.push("/admin/books");
+        }
+      })
+      .catch((error) => {
+        this.$emit("error", error);
+      });
     },
+
     loadCoverImage(){
+      // get a reference to the input using ref
+      const file = this.$refs.coverInput.files[0];
 
+      // encode file using the FileReader API
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        this.book.cover = base64String;
+        // alert(base64String);
+      }
+      reader.readAsDataURL(file);
     },
-    confirmDelete(id){
 
-    }
+    confirmDelete(id){
+      console.log("will delete", id)
+      notie.confirm({
+        text: "Are you sure you want to delete this book?",
+        submitText: "Delete",
+        submitCallback: () => {
+          let payload = {
+            id: id,
+          }
+          fetch(`${import.meta.env.VITE_API_URL}/admin/books/delete`, Security.requestOptions(payload))
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.error) {
+              this.$emit("error", data.message);
+            } else {
+              this.$emit("success", "Book deleted");
+              router.push("/admin/books");
+            }
+          })
+          .catch((error) => {
+            this.$emit("error", error);
+          })
+        }
+      });
+    },
   }
+
 }
 </script>

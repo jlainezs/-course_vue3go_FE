@@ -30,3 +30,5 @@ coverage
 .env
 
 *.tsbuildinfo
+
+book_covers/*
