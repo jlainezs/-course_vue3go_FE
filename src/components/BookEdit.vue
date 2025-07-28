@@ -19,7 +19,7 @@
           <text-input v-model="book.title" type="text" required="true" label="Title" name="title" :value="book.title" />
           <select-input name="author_id" v-model="this.book.author_id" :items="this.authors" required="required" label="Author" />
 
-          <text-input v-model="book.publication_year" type="text" required="true" label="Publication Year" name="publication_year" :value="book.publication_year" />
+          <text-input v-model="book.publication_year" type="number" required="true" label="Publication Year" name="publication_year" :value="book.publication_year" />
 
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
@@ -78,7 +78,7 @@ export default {
         id: 0,
         title: "",
         description: "",
-        publication_year: 0,
+        publication_year: null,
         author_id: 0,
         genres: [],
         genre_ids: [],
@@ -125,13 +125,14 @@ export default {
       const payload = {
         id: this.book.id,
         title: this.book.title,
-        author_id: parseInt(this.book.author_id),
-        publication_year: this.book.publication_year,
+        author_id: parseInt(this.book.author_id, 10),
+        publication_year: parseInt(this.book.publication_year, 10),
         description: this.book.description,
         cover: this.book.cover,
         slug: this.book.slug,
         genre_ids: this.book.genre_ids,
       };
+
       fetch(`${import.meta.env.VITE_API_URL}/admin/books/save`, Security.requestOptions(payload))
       .then((response) => response.json())
       .then((data) => {
@@ -145,6 +146,8 @@ export default {
       .catch((error) => {
         this.$emit("error", error);
       });
+
+      //console.log("payload", payload);
     },
 
     loadCoverImage(){
