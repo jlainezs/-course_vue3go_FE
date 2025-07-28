@@ -30,13 +30,14 @@
 <script>
 import Security from "./security.js";
 export default {
+  name: 'BooksAdmin',
   data() {
     return {
       books: {},
       ready: false,
     }
   },
-  activated(){
+  mounted(){
     Security.requireToken();
     fetch(import.meta.env.VITE_API_URL + "/admin/books", Security.requestOptions(""))
     .then(response => response.json())
@@ -49,8 +50,5 @@ export default {
       }
     })
   },
-  deactivated(){
-    this.ready = false;
-  }
 }
 </script>

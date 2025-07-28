@@ -22,7 +22,7 @@ const routes = [
   },
   {
     path: "/books",
-    name: "Books",
+    name: "Books", // must match component name and app keepalive include
     component: Books,
   },
   {

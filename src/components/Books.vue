@@ -49,6 +49,7 @@ import { store } from "@/components/store.js"
 import Security from "@/components/security.js";
 
 export default {
+  name: 'Books',
   data() {
     return {
       store,
