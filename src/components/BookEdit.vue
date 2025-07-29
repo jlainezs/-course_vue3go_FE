@@ -6,14 +6,14 @@
         <hr/>
         <form-tag @bookEditEvent="submitHandler" name="bookForm" event="bookEditEvent">
           <div v-if="this.book.slug !== ''" class="mb-3">
-            <img :src="`{this.imgPath}/covers/${this.book.slug}.jpg`" class="img-fluid img-thumbnal book-cover" alt="cover" />
+            <img :src="`${this.imgPath}/covers/${this.book.slug}.jpg`" class="img-fluid img-thumbnal book-cover" alt="cover" />
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">Cover image</label>
             <input v-if="this.book.id === 0" ref="coverInput"
                  class="form-control" type="file" id="formFile" required accept="image/jpeg" @change="loadCoverImage" />
             <input v-else ref="coverInput"
-                 class="form-control" type="file" id="formFile" required accept="image/jpeg" @change="loadCoverImage" />
+                 class="form-control" type="file" id="formFile" accept="image/jpeg" @change="loadCoverImage" />
           </div>
 
           <text-input v-model="book.title" type="text" required="true" label="Title" name="title" :value="book.title" />
@@ -77,13 +77,13 @@ export default {
       book: {
         id: 0,
         title: "",
-        description: "",
-        publication_year: null,
         author_id: 0,
+        publication_year: null,
+        description: "",
+        cover: "",
+        slug: "",
         genres: [],
         genre_ids: [],
-        slug: "",
-        cover: "",
       },
       authors: [],
       imgPath: import.meta.env.VITE_API_IMAGE_URL,
@@ -104,8 +104,20 @@ export default {
     // get book for edit if id > 0
     if (this.$route.params.bookId > 0){
       // editing a book
-    } else {
-      // adding a book
+      fetch(import.meta.env.VITE_API_URL + "/admin/books/" + this.$route.params.bookId, Security.requestOptions(""))
+      .then(response => response.json())
+      .then((data) => {
+        if (data.error) {
+          this.$emit("error", data.message);
+        } else {
+          this.book = data.data;
+          let genreArray = [];
+          for (let i = 0; i < this.book.genres.length; i++){
+            genreArray.push(this.book.genres[i].id);
+          }
+          this.book.genre_ids = genreArray;
+        }
+      })
     }
 
     // get list of authors for drop down
@@ -192,6 +204,11 @@ export default {
       });
     },
   }
-
 }
 </script>
+
+<style scoped>
+.book-cover {
+  max-width: 10em;
+}
+</style>
