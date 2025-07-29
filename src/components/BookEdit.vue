@@ -50,7 +50,7 @@
               Delete
             </a>
           </div>
-
+          <div class="clearfix"></div>
         </form-tag>
       </div>
     </div>
