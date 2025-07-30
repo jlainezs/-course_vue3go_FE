@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Body from "./../components/Body.vue";
-import Login from "@/components/Login.vue";
+//import Login from "@/components/Login.vue";
 //import Books from "@/components/Books.vue";
 import BooksComposition from "@/components/BooksComposition.vue";
 //import Book from "@/components/Book.vue";
@@ -10,6 +10,7 @@ import Users from "@/components/Users.vue";
 import UserEdit from "@/components/UserEdit.vue";
 import Security from "@/components/security.js";
 import BookComposition from "@/components/BookComposition.vue";
+import LoginComposition from "@/components/LoginComposition.vue";
 
 const routes = [
   {
@@ -19,8 +20,8 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
-    component: Login,
+    name: "LoginComposition",
+    component: LoginComposition,
   },
   {
     path: "/books",
