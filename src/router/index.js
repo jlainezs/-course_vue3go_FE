@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Body from "./../components/Body.vue";
-import Login from "@/components/Login.vue";
-import Books from "@/components/Books.vue";
-import Book from "@/components/Book.vue";
+//import Login from "@/components/Login.vue";
+//import Books from "@/components/Books.vue";
+import BooksComposition from "@/components/BooksComposition.vue";
+//import Book from "@/components/Book.vue";
 import BooksAdmin from "@/components/BooksAdmin.vue";
 import BookEdit from "@/components/BookEdit.vue";
 import Users from "@/components/Users.vue";
 import UserEdit from "@/components/UserEdit.vue";
 import Security from "@/components/security.js";
+import BookComposition from "@/components/BookComposition.vue";
+import LoginComposition from "@/components/LoginComposition.vue";
 
 const routes = [
   {
@@ -17,18 +20,18 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
-    component: Login,
+    name: "LoginComposition",
+    component: LoginComposition,
   },
   {
     path: "/books",
-    name: "Books", // must match component name and app keepalive include
-    component: Books,
+    name: "BooksComposition", // must match component name and app keepalive include
+    component: BooksComposition,
   },
   {
     path: "/books/:bookName",
-    name: "Book",
-    component: Book,
+    name: "BookComposition",
+    component: BookComposition,
   },
   {
     path: "/admin/books",
